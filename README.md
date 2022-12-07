@@ -10,3 +10,5 @@ This wrapper function `tidy_ci()` runs `broom::tidy()` and returns the result, p
 Does the exponentiate function after CI calc 
 
 Also exclude intercept for tidier output - can be included
+
+Load using: `source("https://raw.githubusercontent.com/lukepilling/tidy_ci/main/tidy_ci.R")`
