@@ -45,10 +45,9 @@ fit_coxph |> tidy_ci(exp = TRUE)
 ## A tibble: 5 x 8
 #  term                       estimate std.error statistic  p.value conf.low conf.high neglog10p
 #  <chr>                         <dbl>     <dbl>     <dbl>    <dbl>    <dbl>     <dbl>     <dbl>
-#1 age                           0.995  0.000837     -6.56 5.28e-11    0.993     0.996     1.02 
-#2 sex                           1.04   0.0109        3.66 2.52e- 4    1.02      1.06      0.770
-#3 bmi                           0.994  0.00100      -6.50 7.92e-11    0.992     0.995     1.01 
-#4 as.factor(smoking_status)1    1.04   0.0120        3.26 1.13e- 3    1.02      1.06      0.722
-#5 as.factor(smoking_status)2    1.03   0.0149        2.16 3.08e- 2    1.00      1.06      0.559
-
+#1 age                           0.995  0.000837     -6.56 5.28e-11    0.993     0.996     10.3 
+#2 sex                           1.04   0.0109        3.66 2.52e- 4    1.02      1.06       3.60
+#3 bmi                           0.994  0.00100      -6.50 7.92e-11    0.992     0.995     10.1 
+#4 as.factor(smoking_status)1    1.04   0.0120        3.26 1.13e- 3    1.02      1.06       2.95
+#5 as.factor(smoking_status)2    1.03   0.0149        2.16 3.08e- 2    1.00      1.06       1.51
 ```
