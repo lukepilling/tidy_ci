@@ -17,7 +17,7 @@ tidy_ci = function(x, ci = TRUE, exp = FALSE, intercept = FALSE, get_neglog10p =
 	if (ci)  ret = ret |> mutate(conf.low=estimate-(1.96*std.error), conf.high=estimate+(1.96*std.error))
 	if (get_neglog10p)  {
 		if (is.na(n) & "glm" %in% class(x))  n = length(x$y)
-		if (is.na(n) & "coxph" %in% class(x))  n = length(x$n)	
+		if (is.na(n) & "coxph" %in% class(x))  n = x$n
 		if (is.na(n)) cat("To calculate -log10 p-values provide the sample size `n`\n")
 		if (!is.na(n)) ret = ret |> mutate(neglog10p=-1*(pt(abs(estimate/std.error),df=!!n,lower.tail=F,log.p=T) + log(2))/log(10))
 	}
