@@ -31,7 +31,13 @@
 require(dplyr)
 require(broom)
 
-tidy_ci = function(x = stop("Provide a model fit object"), ci = TRUE, exp = FALSE, intercept = FALSE, get_neglog10p = TRUE, n = NA, ...) {
+tidy_ci = function(x = stop("Provide a model fit object"), 
+		   ci = TRUE, 
+		   exp = FALSE, 
+		   intercept = FALSE, 
+		   get_neglog10p = TRUE, 
+		   n = NA, 
+		   ...) {
 	
 	## get tidy output -- do not use `broom` CIs or Exponentiate options
 	ret = tidy(x, conf.int = FALSE, exponentiate = FALSE, ...)
