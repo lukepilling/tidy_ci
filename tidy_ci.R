@@ -40,24 +40,24 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 		   ...) {
 	
 	## get tidy output -- do not use `broom` CIs or Exponentiate options
-	ret = tidy(x, conf.int = FALSE, exponentiate = FALSE, ...)
+	ret = broom::tidy(x, conf.int = FALSE, exponentiate = FALSE, ...)
 	
 	## get CIs based on 1.96*SE
-	if (ci)  ret = ret |> mutate(conf.low=estimate-(1.96*std.error), conf.high=estimate+(1.96*std.error))
+	if (ci)  ret = ret |> dplyr::mutate(conf.low=estimate-(1.96*std.error), conf.high=estimate+(1.96*std.error))
 	
 	## get -log10 p-value
 	if (get_neglog10p)  {
 		if (is.na(n) & "glm" %in% class(x))  n = length(x$y)
 		if (is.na(n) & "coxph" %in% class(x))  n = x$n
 		if (is.na(n)) cat("To calculate -log10 p-values provide the sample size `n`\n")
-		if (!is.na(n)) ret = ret |> mutate(neglog10p=-1*(pt(abs(estimate/std.error),df=!!n,lower.tail=F,log.p=T) + log(2))/log(10))
+		if (!is.na(n)) ret = ret |> dplyr::mutate(neglog10p=-1*(pt(abs(estimate/std.error),df=!!n,lower.tail=F,log.p=T) + log(2))/log(10))
 	}
 	
 	## exponentiate if required
-	if (exp) ret = ret |> mutate(estimate=exp(estimate), conf.low=exp(conf.low), conf.high=exp(conf.high))
+	if (exp) ret = ret |> dplyr::mutate(estimate=exp(estimate), conf.low=exp(conf.low), conf.high=exp(conf.high))
 	
 	## exclude intercept?
-	if (!intercept) ret = ret |> filter(term!="(Intercept)")
+	if (!intercept) ret = ret |> dplyr::filter(term!="(Intercept)")
 	
 	## return object
 	ret
