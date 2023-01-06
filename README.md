@@ -14,7 +14,7 @@ Not tested for models other than `glm()` and `survival::coxph()` where it seems 
 ## Example
 
 ```
-library(tidyverse)
+library(dplyr)
 library(broom)
 source("https://raw.githubusercontent.com/lukepilling/tidy_ci/main/tidy_ci.R")
 
@@ -39,6 +39,7 @@ fit_logistic |> tidy_ci(exp = TRUE)
 #2 sex      1.70   0.00962      55.4  0            1.67      1.74      665. 
 #3 bmi      0.991  0.00103      -8.44 3.08e- 17    0.989     0.993      16.5
 
+library(survival)
 fit_coxph = coxph(Surv(time_to_event, diagnosis_bin) ~ age + sex + bmi + as.factor(smoking_status), data = d)
 fit_coxph |> tidy_ci(exp = TRUE)
 
