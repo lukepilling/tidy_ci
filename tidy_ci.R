@@ -35,7 +35,7 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 		   ci = TRUE, 
 		   exp = FALSE, 
 		   intercept = FALSE, 
-		   get_neglog10p = TRUE, 
+		   neglog10p = TRUE, 
 		   n = NA, 
 		   ...) {
 	
@@ -46,7 +46,7 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 	if (ci)  ret = ret |> dplyr::mutate(conf.low=estimate-(1.96*std.error), conf.high=estimate+(1.96*std.error))
 	
 	## get -log10 p-value
-	if (get_neglog10p)  {
+	if (neglog10p)  {
 		if (is.na(n) & "glm" %in% class(x))  n = length(x$y)
 		if (is.na(n) & "coxph" %in% class(x))  n = x$n
 		if (is.na(n)) cat("To calculate -log10 p-values provide the sample size `n`\n")
