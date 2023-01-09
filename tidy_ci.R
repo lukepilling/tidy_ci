@@ -47,15 +47,13 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 		   check_family = TRUE,
 		   n = NA, 
 		   conf.int = FALSE,     ## tidy() option
-		   exponentiate = FALSE, ## tidy() option
 		   ...) {
 	
-	## use `tidy()` CI/exp method?  Only if not using the other
+	## use `tidy()` CI method?  Only if not using the 1.96*SE method
 	if (ci) conf.int = FALSE
-	if (exp) exponentiate = FALSE
 
 	## get tidy output -- do not use `broom` CIs or Exponentiate options by default
-	ret = broom::tidy(x, conf.int = conf.int, exponentiate = exponentiate, ...)
+	ret = broom::tidy(x, conf.int = conf.int, exponentiate = FALSE, ...)
 	
 	## get CIs based on 1.96*SE?
 	if (ci)  ret = ret |> dplyr::mutate(conf.low=estimate-(1.96*std.error), conf.high=estimate+(1.96*std.error))
@@ -71,7 +69,7 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 	}
 	
 	## exponentiate estimate and CIs?
-	if (check_family & !exp & !exponentiate)  {
+	if (check_family & !exp)  {
 		if ("glm" %in% class(x)) {
 			if (x$family$family == "binomial") {
 				exp = TRUE
