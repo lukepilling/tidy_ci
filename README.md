@@ -14,7 +14,7 @@ This function `tidy_ci()` runs `broom::tidy()` and returns the tidy estimates wi
  - `n` {default=NA} the N for `neglog10p` is extracted automatically for `glm` or `coxph` objects - override here if required
  - `...` Other `tidy()` options 
 
-Not tested for models other than `glm()` and `survival::coxph()` where it seems to work very well and produces consistent CIs.
+Not tested for models other than `glm()` and `survival::coxph()` where it seems to work very well and produces consistent CIs. Also works well for `cmprsk::crr()` (and therefore `tidycmprsk::crr()`)
 
 ## Examples
 
