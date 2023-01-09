@@ -5,7 +5,7 @@ By default the (amazing) `broom` package uses the `confint()` function to calcul
 
 This function `tidy_ci()` runs `broom::tidy()` and returns the tidy estimates with CIs calculated as EST +/- 1.96*SE
 
-Options:
+### Options:
  - `ci` {default=TRUE} calculate CIs using 1.96*SE method
  - `intercept` {default=FALSE} Exclude intercept for tidier output
  - `neglog10p` {default=TRUE} Provides negative log10 p-values (if input is class `glm` or `coxph` -- user can provide sample size `n=#` to override)
@@ -16,7 +16,7 @@ Options:
 
 Not tested for models other than `glm()` and `survival::coxph()` where it seems to work very well and produces consistent CIs.
 
-## Example
+## Examples
 
 ```
 library(dplyr)
