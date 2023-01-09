@@ -64,7 +64,7 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 	if (check_family)  {
 		if ("glm" %in% class(x)) if (x$family$family == "binomial") exp = TRUE 
 		if ("coxph" %in% class(x)) exp = TRUE
-		if (exp) cat("Detected logistic/coxph model. Estimate=exp(linear predictor)\n")
+		if (exp) cat("Detected logistic/coxph model :. estimate=exp(linear predictor)\n")
 	}
 	if (exp) ret = ret |> dplyr::mutate(estimate=exp(estimate))
 	if (exp & ci) ret = ret |> dplyr::mutate(conf.low=exp(conf.low), conf.high=exp(conf.high))
