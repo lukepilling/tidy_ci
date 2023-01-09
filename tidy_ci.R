@@ -16,7 +16,7 @@
 #  `n` {default=NA} the N for `neglog10p` is extracted automatically for `glm` or `coxph` objects - override here if required
 #  `...` Other `tidy()` options 
 
-# Not tested for models other than `glm()` and `survival::coxph()` where it seems to work very well and produces consistent CIs.
+# Not tested for models other than `glm()` and `survival::coxph()` where it seems to work very well and produces consistent CIs. Also works well for `cmprsk::crr()`
 
 ## Examples
 
@@ -56,15 +56,28 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 	if (neglog10p)  {
 		if (is.na(n) & "glm" %in% class(x))  n = length(x$y)
 		if (is.na(n) & "coxph" %in% class(x))  n = x$n
+		if (is.na(n) & "crr" %in% class(x))  n = x$n
+		if (is.na(n) & "tidycrr" %in% class(x))  n = x$cmprsk$n
 		if (is.na(n)) cat("To calculate -log10 p-values provide the sample size `n`\n")
 		if (!is.na(n)) ret = ret |> dplyr::mutate(neglog10p=-1*(pt(abs(estimate/std.error),df=!!n,lower.tail=F,log.p=T) + log(2))/log(10))
 	}
 	
 	## exponentiate estimate and CIs?
 	if (check_family)  {
-		if ("glm" %in% class(x)) if (x$family$family == "binomial") exp = TRUE 
-		if ("coxph" %in% class(x)) exp = TRUE
-		if (exp) cat("Detected logistic/coxph model :. estimate=exp(linear predictor)\n")
+		if ("glm" %in% class(x)) {
+			if (x$family$family == "binomial") {
+				exp = TRUE
+				cat("Detected logistic model :. estimate=exp(linear predictor)\n")
+			}
+		}
+		if (any(c("coxph") %in% class(x)))  {
+			exp = TRUE
+			cat("Detected CoxPH model :. estimate=exp(linear predictor)\n")
+		}
+		if (any(c("crr","tidycrr") %in% class(x)))  {
+			exp = TRUE
+			cat("Detected CRR model :. estimate=exp(linear predictor)\n")
+		}
 	}
 	if (exp) ret = ret |> dplyr::mutate(estimate=exp(estimate))
 	if (exp & ci) ret = ret |> dplyr::mutate(conf.low=exp(conf.low), conf.high=exp(conf.high))
