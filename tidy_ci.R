@@ -46,16 +46,24 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 		   neglog10p = TRUE, 
 		   check_family = TRUE,
 		   n = NA, 
+		   conf.int = FALSE,     ## tidy() option
+		   exponentiate = FALSE, ## tidy() option
 		   ...) {
 	
-	## get tidy output -- do not use `broom` CIs or Exponentiate options
-	ret = broom::tidy(x, conf.int = FALSE, exponentiate = FALSE, ...)
+	## use `tidy()` CI/exp method?
+	tidy_cis = FALSE
+	if (!ci & conf.int) tidy_cis = TRUE
+	tidy_exp = FALSE
+	if (!exp & exponentiate) tidy_exp = TRUE
+
+	## get tidy output -- do not use `broom` CIs or Exponentiate options by default
+	ret = broom::tidy(x, conf.int = tidy_cis, exponentiate = tidy_exp, ...)
 	
 	## get CIs based on 1.96*SE?
 	if (ci)  ret = ret |> dplyr::mutate(conf.low=estimate-(1.96*std.error), conf.high=estimate+(1.96*std.error))
 	
 	## get -log10 p-value?
-	if (neglog10p)  {
+	if (neglog10p & !exponentiate)  {
 		if (is.na(n) & "glm" %in% class(x))  n = length(x$y)
 		if (is.na(n) & "coxph" %in% class(x))  n = x$n
 		if (is.na(n) & "crr" %in% class(x))  n = x$n
@@ -65,7 +73,7 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 	}
 	
 	## exponentiate estimate and CIs?
-	if (check_family)  {
+	if (check_family & !exp & !exponentiate)  {
 		if ("glm" %in% class(x)) {
 			if (x$family$family == "binomial") {
 				exp = TRUE
