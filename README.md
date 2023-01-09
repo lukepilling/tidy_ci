@@ -18,7 +18,7 @@ Not tested for models other than `glm()` and `survival::coxph()` where it seems 
 
 ## Examples
 
-```
+```R
 library(dplyr)
 library(broom)
 source("https://raw.githubusercontent.com/lukepilling/tidy_ci/main/tidy_ci.R")
