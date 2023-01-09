@@ -5,7 +5,7 @@ By default the (amazing) `broom` package uses the `confint()` function to calcul
 
 This function `tidy_ci()` runs `broom::tidy()` and returns the tidy estimates with CIs calculated as EST +/- 1.96*SE
 
-Also does a few other nice/useful things to the output (hides the intercept by default, calculates -log10 p-values, etc.)
+Also does a few other nice/useful things to the output: hides the intercept by default, calculates -log10 p-values, and automatically detects logistic/CoxPH/CRR models and exponentiates the estimates
 
 ### Options:
  - `ci` {default=TRUE} calculate CIs using 1.96*SE method
