@@ -50,14 +50,12 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 		   exponentiate = FALSE, ## tidy() option
 		   ...) {
 	
-	## use `tidy()` CI/exp method?
-	tidy_cis = FALSE
-	if (!ci & conf.int) tidy_cis = TRUE
-	tidy_exp = FALSE
-	if (!exp & exponentiate) tidy_exp = TRUE
+	## use `tidy()` CI/exp method?  Only if not using the other
+	if (ci) conf.int = FALSE
+	if (exp) exponentiate = FALSE
 
 	## get tidy output -- do not use `broom` CIs or Exponentiate options by default
-	ret = broom::tidy(x, conf.int = tidy_cis, exponentiate = tidy_exp, ...)
+	ret = broom::tidy(x, conf.int = conf.int, exponentiate = exponentiate, ...)
 	
 	## get CIs based on 1.96*SE?
 	if (ci)  ret = ret |> dplyr::mutate(conf.low=estimate-(1.96*std.error), conf.high=estimate+(1.96*std.error))
