@@ -6,6 +6,7 @@
 # By default the (amazing) `broom` package uses the `confint()` function to calculate CIs. For GLMs this calculates confidence intervals via profile likelihood by default. When using large datasets this takes a long time and does not meaningfully alter the CIs compared to simply calculating using 1.96*SE
 
 # This function `tidy_ci()` runs `broom::tidy()` and returns the tidy estimates with CIs calculated as EST +/- 1.96*SE
+# Also does a few other nice/useful things to the output (hides the intercept by default, calculates -log10 p-values, etc.)
 
 # Options:
 #  `ci` {default=TRUE} calculate CIs using 1.96*SE method
