@@ -65,25 +65,30 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 		if (is.na(n) & "crr" %in% class(x))  n = x$n
 		if (is.na(n) & "tidycrr" %in% class(x))  n = x$cmprsk$n
 		if (is.na(n)) cat("To calculate -log10 p-values provide the sample size `n`\n")
-		if (!is.na(n)) ret = ret |> dplyr::mutate(neglog10p=-1*(pt(abs(estimate/std.error),df=!!n,lower.tail=F,log.p=T) + log(2))/log(10))
+		if (!is.na(n)) {
+			ret = ret |> dplyr::mutate(neglog10p=-1*(pt(abs(estimate/std.error),df=!!n,lower.tail=F,log.p=T) + log(2))/log(10))
+			cat(paste0("N=", n, "\n"))
+		}
 	}
 	
 	## exponentiate estimate and CIs?
 	if (check_family & !exp)  {
+		model = ""
 		if ("glm" %in% class(x)) {
 			if (x$family$family == "binomial") {
 				exp = TRUE
-				cat("Detected logistic model :. estimate=exp(linear predictor)\n")
+				model = "binomial"
 			}
 		}
 		if (any(c("coxph") %in% class(x)))  {
 			exp = TRUE
-			cat("Detected CoxPH model :. estimate=exp(linear predictor)\n")
+			model = "CoxPH"
 		}
 		if (any(c("crr","tidycrr") %in% class(x)))  {
 			exp = TRUE
-			cat("Detected CRR model :. estimate=exp(linear predictor)\n")
+			model = "CRR"
 		}
+		if (model != "")  cat(paste0("Detected ", model, " model :. estimate=exp(linear predictor)\n"))
 	}
 	if (exp) ret = ret |> dplyr::mutate(estimate=exp(estimate))
 	if (exp & ci) ret = ret |> dplyr::mutate(conf.low=exp(conf.low), conf.high=exp(conf.high))
