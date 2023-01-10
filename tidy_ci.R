@@ -59,7 +59,7 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 	if (ci)  ret = ret |> dplyr::mutate(conf.low=estimate-(1.96*std.error), conf.high=estimate+(1.96*std.error))
 	
 	## get -log10 p-value?
-	if (neglog10p & !exponentiate)  {
+	if (neglog10p)  {
 		if (is.na(n) & "glm" %in% class(x))  n = length(x$y)
 		if (is.na(n) & "coxph" %in% class(x))  n = x$n
 		if (is.na(n) & "crr" %in% class(x))  n = x$n
