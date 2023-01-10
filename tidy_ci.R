@@ -91,7 +91,7 @@ tidy_ci = function(x = stop("Provide a model fit object"),
 		if (model != "")  cat(paste0(model, " model :: estimate=exp()\n"))
 	}
 	if (exp) ret = ret |> dplyr::mutate(estimate=exp(estimate))
-	if (exp & ci) ret = ret |> dplyr::mutate(conf.low=exp(conf.low), conf.high=exp(conf.high))
+	if (exp & (ci | conf.int)) ret = ret |> dplyr::mutate(conf.low=exp(conf.low), conf.high=exp(conf.high))
 	
 	## exclude intercept?
 	if (!intercept) ret = ret |> dplyr::filter(term!="(Intercept)")
