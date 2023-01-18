@@ -1,4 +1,7 @@
 # tidy_ci
+
+***No longer updated - use the version in https://github.com/lukepilling/lukesRlib instead***
+
 Function to run `broom::tidy()` and calculate CIs
 
 By default the (amazing) `broom` package uses the `confint()` function to calculate CIs. For GLMs this calculates confidence intervals via profile likelihood by default. When using large datasets this takes a long time and does not meaningfully alter the CIs compared to simply calculating using 1.96*SE
