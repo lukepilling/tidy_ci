@@ -36,8 +36,8 @@
 #fit_coxph = coxph(Surv(time_to_event, diagnosis_bin) ~ age + sex + bmi + as.factor(smoking_status), data = d)
 #tidy_ci(fit_coxph)
 
-require(dplyr)
-require(broom)
+library(dplyr)
+library(broom)
 
 cat(paste0(
 "\n** This function still works but newer and updated versions will be via R package `lukesRlib`\n",
