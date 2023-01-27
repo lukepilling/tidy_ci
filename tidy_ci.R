@@ -36,6 +36,11 @@
 #fit_coxph = coxph(Surv(time_to_event, diagnosis_bin) ~ age + sex + bmi + as.factor(smoking_status), data = d)
 #tidy_ci(fit_coxph)
 
+cat(paste0(
+"** This function still works but newer and updated versions will be via R package `lukesRlib`\n",
+"** On Shapter? It's already installed. Use `library(lukesRlib)` to load, instead of this `source()` command\n",
+"** Visit https://github.com/lukepilling/lukesRlib for documentation and instructions, and see what other functions available\n"))
+
 require(dplyr)
 require(broom)
 
