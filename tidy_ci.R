@@ -40,7 +40,8 @@ library(dplyr)
 library(broom)
 
 warning(paste0(
-"\n** This function still works but newer and updated versions will be via R package `lukesRlib`\n",
+"\n\n<><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><><>\n",
+"** This function still works but newer and updated versions will be via R package `lukesRlib`\n",
 "** On Shapter? It's already installed. Use `library(lukesRlib)` to load, instead of this `source()` command\n",
 "** Visit https://github.com/lukepilling/lukesRlib for documentation and instructions, and see what other functions available\n\n"))
 
